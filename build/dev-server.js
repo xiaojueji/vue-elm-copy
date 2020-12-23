@@ -21,7 +21,7 @@ const port = process.env.PORT || config.dev.port
 const server = express()
 const complier = webpack(webpackConfig)
 
-const debMiddleware = require('web-dev-middleware')(complier, {
+const debMiddleware = require('webpack-dev-middleware')(complier, {
   publicPath: webpackConfig.output.publicPath,
   stats: {
     colors: true,

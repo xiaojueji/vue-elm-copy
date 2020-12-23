@@ -11,12 +11,12 @@ exports.assetsPath = (_path) => {
   return path.posix.join(assetsSubDirectory, _path)
 }
 
-exports.cssLoader = (options) => {
+exports.cssLoaders = (options) => {
   options = options || {}
   // generate loader string to be used with extract text plugin
   function generateLoaders (loaders) {
     const sourceLoader = loaders.map((loader) => {
-      const extraParamChar
+      let extraParamChar
       if (/\?/.test(loader)) {
         loader = loader.replace(/\?/, '-loader?')
         extraParamChar = '&'
@@ -51,7 +51,7 @@ exports.cssLoader = (options) => {
 
 exports.styleLoadres = (options) => {
   const output = []
-  const loaders = exports.cssLoader(options)
+  const loaders = exports.cssLoaders(options)
   for (let extension in loaders) {
     const loader = loaders[extension]
     output.push({

@@ -1,12 +1,10 @@
-const { patch } = require("request")
-
-const path = require(path)
+const path = require('path')
 
 module.exports = {
   build: {
     env: {NODE_ENV: '"production"'},
-    index: path.resovle(__dirname, '../elm/index.html'),
-    assetsRoot: path.resovle(__dirname, '../elm'),
+    index: path.resolve(__dirname, '../elm/index.html'),
+    assetsRoot: path.resolve(__dirname, '../elm'),
     assetsSubDirectory: 'static',
     assetsPublicPath: '/elm/',
     productionSourceMap: true,

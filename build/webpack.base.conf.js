@@ -53,12 +53,15 @@ module.exports = {
         name: utils.assetsPath('fonts/[name].[ext]')
       }
     }, {
-      test: /\.(woff2?|eot|ttf|otf)(\?.*)?*/,
+      test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
       loader: 'url',
       query: {
         limit: 10000,
         name: utils.assetsPath('fonts/[name].[hash:7].[ext]')
       }
+    },{
+      test: /\.(png|jpe?g|gif)$/i,
+      loader: 'file-loader'
     }]
   },
   vue: {
