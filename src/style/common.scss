@@ -20,12 +20,6 @@ html{
   height: 100%;
   width: 100%;
 }
-body{
-  height: 100%;
-  width: 100%;
-  background: url(../images/1-1.jpg) no-repeat;
-  background-size: 100% 100%;
-}
 
 .clear:after{
   content: '';
@@ -34,7 +28,7 @@ body{
 }
 
 .clear{
-  zoom:1;
+  zoom: 1;
 }
 
 .back_img{
@@ -51,7 +45,7 @@ body{
 }
 
 .right{
-  float:right;
+  float: right;
 }
 
 .hide{
