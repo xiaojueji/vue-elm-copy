@@ -1,17 +1,22 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import mutations from './mutation'
+import mutations from './mutations'
 import actions from './action'
-import ajax from '../config/ajax'
-
+import getters from '../config/ajax'
+import checkout from './modules/checkout'
 
 Vue.use(Vuex)
 
 const state = {
+	test1: null
 }
 
 export default new Vuex.Store({
 	state,
+	getters,
 	actions,
-	mutations
+	mutations,
+	modules: {
+		checkout
+	}
 })

@@ -1,7 +1,7 @@
 import { baseUrl } from './env'
 
 export default (type = 'GET', url = '', data = {}) => {
-	return new Promise((resolve, reject) => { //定义一个promise
+	return new Promise((resolve, reject) => { // 返回一个promise
 		type = type.toUpperCase();
 
 		url = baseUrl + url
@@ -15,7 +15,7 @@ export default (type = 'GET', url = '', data = {}) => {
 		}
 
 		if (type == 'GET') {
-			let dataStr = ''; //数据拼接字符串
+			let dataStr = ''; // 数据拼接字符串
 			Object.keys(data).forEach(key => {
 				dataStr += key + '=' + data[key] + '&';
 			})
