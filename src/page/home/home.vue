@@ -2,7 +2,7 @@
   <div>
     <head-top></head-top>
     <head-top signin-up="home">
-      <router-link to="/home" slot="logo" class="head_logo">ele.me</router-link>
+      <span slot="logo" class="head_logo" @click="reload">ele.me</span>
     </head-top>
     <nav class="city_nav">
       <div class="city_tip">
@@ -14,15 +14,15 @@
         <span>></span>
       </router-link>
     </nav>
-    <div id="hot_city_container">
+    <section id="hot_city_container">
       <h4 class="city_title">热门城市</h4>
       <ul class="citylistul clear">
         <router-link tag="li" v-for="item in hotcity" :to="'/city/' + item.id" :key="item.id">
           {{ item.name }}
         </router-link>
       </ul>
-    </div>
-    <div class="group_city_container">
+    </section>
+    <section class="group_city_container">
       <ul class="letter_classify">
         <li v-for="(value, key, index) in sortgroupcity" :key="key" class="letter_classify_li">
           <h4 class="city_title">
@@ -36,7 +36,7 @@
           </ul>
         </li>
       </ul>
-    </div>
+    </section>
   </div>
 </template>
 
@@ -47,22 +47,25 @@ import {cityGuess, hotcity, groupcity} from '../../service/getData'
 export default {
   data () {
     return {
-      guessCity: '',
-      guessCityid: '',
-      hotcity:[],
-      groupcity: {}
+      guessCity: '', // 当前城市
+      guessCityid: '', // 当前城市id
+      hotcity:[], // 热门城市列表
+      groupcity: {} // 所有城市列表
     }
   },
-  created () {
+  mounted () {
+    // 获取当前城市
     cityGuess().then(res => {
       this.guessCity = res.name
       this.guessCityid = res.id
     })
 
+    // 获取人们城市
     hotcity().then(res => {
       this.hotcity = res
     })
 
+    // 获取所有城市
     groupcity().then(res => {
       this.groupcity = res
     })
@@ -71,6 +74,7 @@ export default {
     headTop
   },
   computed: {
+    // 将获取的数据按照A-Z字母排序
     sortgroupcity () {
       let sortobj = {}
       for (let i = 65; i <= 90; i++) {
@@ -81,7 +85,11 @@ export default {
       return sortobj
     }
   },
-  methods: {}
+  methods: {
+    reload () {
+      window.location.reload()
+    }
+  }
 }
 </script>
 
@@ -90,13 +98,13 @@ export default {
   .head_logo {
     left: .4rem;
     font-weight: 400;
-    @include sizecolor(.7rem, #fff);
+    @include sc(.7rem, #fff);
     @include wh(2.3rem, .7rem);
-    @include center-top;
+    @include ct;
   }
   .city_nav {
     margin-top: 2.35rem;
-    border-top: 1px solid $bordercolor;
+    border-top: 1px solid $bc;
     background-color: #fff;
     margin-bottom: .4rem;
     .city_tip {
@@ -105,11 +113,11 @@ export default {
       line-height: 1.45rem;
       padding: 0 .45rem;
       span:nth-of-type(1) {
-        @include sizecolor(.55rem, #666);
+        @include sc(.55rem, #666);
       }
       span:nth-of-type(2) {
         font-weight: 900;
-        @include sizecolor(.475rem,#9f9f9f);
+        @include sc(.475rem,#9f9f9f);
       }
     }
     .guess_city {
@@ -117,8 +125,8 @@ export default {
       height: 1.8rem;
       justify-content: space-between;
       padding: 0 .45rem;
-      border-top: 1px solid $bordercolor;
-      border-bottom: 2px solid $bordercolor;
+      border-top: 1px solid $bc;
+      border-bottom: 2px solid $bc;
       @include font(.75rem, 1,8rem);
       span:nth-of-type(1) {
         color: $blue;
@@ -137,8 +145,8 @@ export default {
       float: left;
       text-align: center;
       color: $blue;
-      border-bottom: .025rem solid $bordercolor;
-      border-right: .025rem solid $bordercolor;
+      border-bottom: .025rem solid $bc;
+      border-right: .025rem solid $bc;
       @include wh(25%, 1.75rem);
       @include font(.6rem, 1.75rem);
     }
@@ -150,17 +158,17 @@ export default {
     color: #666;
     font-weight: 400;
     text-indent: .45rem;
-    border-top: 2px solid $bordercolor;
-    border-bottom: 1px solid $bordercolor;
+    border-top: 2px solid $bc;
+    border-bottom: 1px solid $bc;
     @include font(.55rem, 1.45rem, "Helvetica Neue");
     span {
-      @include sizecolor(.475rem, #999);
+      @include sc(.475rem, #999);
     }
   }
   .letter_classify_li {
     margin-bottom: .4rem;
     background-color: #fff;
-    border-bottom: 1px solid $bordercolor;
+    border-bottom: 1px solid $bc;
     .groupcity_name_container {
       li {
         color: #666;
