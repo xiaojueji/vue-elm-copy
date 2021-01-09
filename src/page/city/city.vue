@@ -32,7 +32,7 @@
 <script>
 import headTop from '../../components/header/head'
 import { currentcity, searchplace } from '../../service/getData'
-import * as Tool from '../../config/mUtils'
+import { getStore, setStore } from '../../config/mUtils'
 
 export default {
   data () {
@@ -54,8 +54,8 @@ export default {
     })
 
     // 获取搜索历史记录
-    if (Tool.getStore('placeHistory')) {
-      this.placelist = JSON.parse(Tool.getStore('placeHistory'))
+    if (getStore('placeHistory')) {
+      this.placelist = JSON.parse(getStore('placeHistory'))
     }
   },
   components: {
@@ -79,7 +79,7 @@ export default {
      * 如果没有则新增，如果有则不做重复储存，判断完后进入下一页
      */
     nextpage (index, geohash) {
-      let history = Tool.getStore('placeHistory')
+      let history = getStore('placeHistory')
       let choosePlace = this.placelist[index]
       if (history) {
         let checkrepeat = false
@@ -95,7 +95,7 @@ export default {
       } else {
         this.placeHistory.push(choosePlace)
       }
-      Tool.setStore('placeHistory', this.placeHistory)
+      setStore('placeHistory', this.placeHistory)
       this.$router.push({ path: '/msite', query: {geohash} })
     }
   }

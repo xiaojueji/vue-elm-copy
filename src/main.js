@@ -3,8 +3,14 @@ import VueRouter from 'vue-router'
 import routes from './router/router'
 import store from './store'
 import { routerMode } from './config/env'
-import './style/common.scss'
+import FastClick from './plugins/fastclick'
 import './config/rem'
+
+if ('addEventListener' in document) {
+  document.addEventListener('DOMContentLoaded', () => {
+    FastClick.attach(document.body)
+  }, false)
+}
 
 Vue.use(VueRouter)
 const router = new VueRouter({

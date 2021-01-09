@@ -5,7 +5,7 @@ body, div, span, header, footer, nav, section, aside, article, ul, dl, dt, dd, l
   font-style: normal;
   text-decoration: none;
   border: none;
-  color: #666;
+  color: #333;
   box-sizing: border-box;
   font-weight: lighter;
   font-family: "Microsoft Yahei",sans-serif;
@@ -66,4 +66,8 @@ html, body{
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.paddingTop {
+  padding-top: 1.95rem;
 }

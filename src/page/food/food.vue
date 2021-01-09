@@ -1,6 +1,9 @@
 <template>
-  <div>
-    <router-link tag="div" to="home">food</router-link>
+  <div class="food_container">
+    <head-top :head-title="headTitle" goBack="true"></head-top>
+    <section class="sort_container">
+      
+    </section>
   </div>
 </template>
 

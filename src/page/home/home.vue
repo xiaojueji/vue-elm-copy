@@ -60,7 +60,7 @@ export default {
       this.guessCityid = res.id
     })
 
-    // 获取人们城市
+    // 获取热门城市
     hotcity().then(res => {
       this.hotcity = res
     })
