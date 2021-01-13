@@ -83,6 +83,6 @@ module.exports = server.listen(port, (err) => {
 
   // when env is testing, don't need open it
   if (process.env.NODE_ENV !== 'listening') {
-    // opn(uri)
+    opn(uri)
   }
 })

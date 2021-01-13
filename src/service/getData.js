@@ -2,8 +2,8 @@ import fetch from '../config/fetch'
 import * as home from './tempdata/home'
 import * as city from './tempdata/city'
 import * as msite from './tempdata/msite'
-
 import * as search from './tempdata/search'
+import * as food from './tempdata/food'
 
 /**
  * 获取首页默认地址
@@ -37,14 +37,36 @@ import * as search from './tempdata/search'
 /**
  * 获取msite商铺列表
  */
-// export const msiteShopList = (latitude, longitude, offset) => fetch('GET', '/shopping/restaurants', {latitude, longitude, offset, limit: '20', 'extras[]':'activities'})
+export const shopList = (latitude, longitude, offset, restaurant_category_id = '', restaurant_category_ids = '', order_by = '', delivery_mode = '', support_ids = []) => {
+	let supportStr = ''
+	support_ids.forEach(item => {
+		if (item.status) supportStr += '&support_ids[]=' + item.id
+	})
+	let data = {latitude, longitude, offset, limit: '20', 'extras[]':'activities', keyword: '', restaurant_category_id, 'restaurant_category_ids[]': restaurant_category_ids, order_by, 'delivery_mode[]':delivery_mode}
+	return fetch('GET', '/shopping/restaurants', data)
+}
 
 /**
- * 获取msite商铺列表
+ * 获取search页面搜索结果
  */
-// export const searchRestaurant = (geohash, keyword) => fetch('GET', '/v4/restaurants', {'extras[]':'restaurant_activity', geohash, keyword, type: 'search'})
+export const searchRestaurant = (geohash, keyword) => fetch('GET', '/v4/restaurants', {'extras[]':'restaurant_activity', geohash, keyword, type: 'search'})
+/**
+ * 获取food页面的category种类列表
+ */
+export const foodCategory = (latitude, longitude) => fetch('GET', '/shopping/v2/restaurant/category', {latitude, longitude})
+/**
+ * 获取food页面的配送方式
+ */
+export const foodDelivery = (latitude, longitude) => fetch('GET', '/shopping/v1/restaurants/delivery_modes', {latitude, longitude, kw: ''})
+/**
+ * 获取food页面的商家属性活动列表
+ */
+export const foodActivity = (latitude, longitude) => fetch('GET', '/shopping/v1/restaurants/activity_attributes', {latitude, longitude, kw: ''})
 
-//以下是临时数据
+/**
+ * 
+ * 以下是临时数据
+ */
 const setPromise = data => {
 	return new Promise((resolve, reject) => {
 		resolve(data)
@@ -58,4 +80,8 @@ export const currentcity = number => setPromise(city.currentcity)
 export const searchplace = (cityid, value) => setPromise(city.searchdata)
 export const msiteAdress = geohash => setPromise(msite.msiteAdress)
 export const msiteFoodTypes = geohash => setPromise(msite.foodTypes)
-export const msiteShopList = (latitude, longitude, offset) => setPromise(msite.shopList)
+//export const shopList = (latitude, longitude, offset) => setPromise(msite.shopList)
+//export const searchRestaurant = (geohash, keyword) => setPromise(search.searchData)
+//export const foodCategory = (latitude, longitude) => setPromise(food.category)
+//export const foodDelivery = (latitude, longitude) => setPromise(food.delivery)
+//export const foodActivity = (latitude, longitude) => setPromise(food.activity)

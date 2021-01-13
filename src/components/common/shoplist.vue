@@ -1,6 +1,6 @@
 <template>
   <div class="shoplist_container">
-    <ul v-load-more="loaderMore">
+    <ul v-load-more="loaderMore" v-if="shopListArr.length">
       <router-link
         :to="{ path: 'food', query: {} }"
         v-for="item in shopListArr"
@@ -88,6 +88,7 @@
         </hgroup>
       </router-link>
     </ul>
+    <p v-else class="empty_data">没有更多了</p>
     <aside class="return_top" @click="backTop" v-if="showBackStatus">
       <svg class="back_top_svg">
         <use
@@ -104,11 +105,11 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-import { imgBaseUrl } from "../../config/env";
-import { shopList } from "../../service/getData";
+import { mapState } from 'vuex'
+import { imgBaseUrl } from '../../config/env'
+import { shopList } from '../../service/getData'
 import { showBack, animate } from '../../config/mUtils'
-import { loaderMore } from '../../components/common/mixin'
+import { loadMore } from '../../components/common/mixin'
 
 export default {
   data() {
@@ -133,15 +134,14 @@ export default {
       this.showBackStatus = status
     })
   },
-  props: ['restaurantCategoryId'],
-  mixins: [loaderMore],
-  components: {},
+  props: ['restaurantCategoryId', 'restaurantCategoryIds', 'sortByType', 'deliveryMode', 'supportIds', 'confirmSelect'],
+  mixins: [loadMore],
   computed: {
     ...mapState(["latitude", "longitude"]),
   },
   methods: {
     //传递过来的图片地址需要处理后才能正常使用
-    subImgUrl(path) {
+    subImgUrl (path) {
       let suffix;
       if (path.indexOf("jpeg") !== -1) {
         suffix = ".jpeg";
@@ -165,6 +165,7 @@ export default {
         return;
       }
       this.preventRepeatReuqest = true;
+      // 数据的定位加20位
       this.offset += 20;
       let res = await msiteShopList(this.latitude, this.longitude, this.offset);
       this.shopListArr = this.shopListArr.concat(res);
@@ -178,6 +179,25 @@ export default {
     //返回顶部
     backTop() {
       animate(document.body, { scrollTop: '0' }, 400, 'ease-out')
+    },
+    async listenPropChange () {
+      this.offset = 0
+      this.shopListArr = await shopList(this.latitude, this.longitude, this.offset, '', this.restaurantCategoryIds, this.sortByType, this.deliveryMode, this.supportIds)
+    }
+  },
+  watch: {
+    // 监听父级传来的restaurantCategoryIds，当值发生变化的时候重新获取餐馆数据，作用于排序和筛选
+    restaurantCategoryIds: async function (value) {
+      this.listenPropChange()
+    },
+    // 监听父级传来的排序方式
+    sortByType: async function (value) {
+      this.listenPropChange()
+    },
+    // 监听父级的确认按钮是否被点击，并且返回一个自定义按钮通知父级已经接收到的数据，此时父级才可以清楚已选状态
+    comfirmSelect: async function () {
+      this.listenPropChange()
+      this.$emit('DidConfirm')
     }
   }
 }
@@ -317,5 +337,10 @@ export default {
   .back_top_svg {
     @include wh(2rem, 2rem);
   }
+}
+.empty_data {
+  @include sc(.5rem, #666);
+  text-align: center;
+  line-height: 2rem;
 }
 </style>
